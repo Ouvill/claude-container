@@ -18,7 +18,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ouvill/claude
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   docker:
