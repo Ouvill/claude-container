@@ -56,6 +56,7 @@ ENV VISUAL=nano
 
 # Install Claude
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
+ENV CLAUDE_CONFIG_DIR="/home/node/.claude"
 
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/
