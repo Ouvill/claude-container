@@ -5,14 +5,15 @@
 To run the Claude container, use the following command:
 
 ```bash
-podman run -it --rm --volume `pwd`:/workspace -v claude-code-config-volume:/home/node/.claude -v claude-code-bashhistory-volume:/commandhistory ghcr.io/ouvill/claude claude```
+podman run -it --rm --volume `pwd`:/workspace -v claude-code-config-volume:/home/node/.claude -v claude-code-bashhistory-volume:/commandhistory --user node --userns=keep-id ghcr.io/ouvill/claude claude
+```
 
 ## alias
 
 You can create an alias for easier access to the Claude container. Add the following line to your shell configuration file (e.g., `~/.bashrc` or `~/.zshrc`):
 
 ```bash
-alias claude='podman run -it --rm --volume `pwd`:/workspace -v claude-code-config-volume:/home/node/.claude -v claude-code-bashhistory-volume:/commandhistory ghcr.io/ouvill/claude claude'
+alias claude='podman run -it --rm --volume `pwd`:/workspace -v claude-code-config-volume:/home/node/.claude -v claude-code-bashhistory-volume:/commandhistory --user node --userns=keep-id ghcr.io/ouvill/claude claude'
 ```
 
 ## Build
