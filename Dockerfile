@@ -41,10 +41,6 @@ RUN ARCH=$(dpkg --print-architecture) && \
 # Set up non-root user
 USER node
 
-# Set the default editor and visual
-ENV EDITOR=nano
-ENV VISUAL=nano
-
 # Install Claude Code (official installer)
 RUN curl -fsSL https://claude.ai/install.sh | bash
 ENV PATH="/home/node/.local/bin:$PATH"
