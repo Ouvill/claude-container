@@ -47,5 +47,6 @@ ENV VISUAL=nano
 
 # Install Claude Code (official installer)
 RUN curl -fsSL https://claude.ai/install.sh | bash
+ENV PATH="/home/node/.local/bin:$PATH"
 ENV CLAUDE_CONFIG_DIR="/home/node/.claude"
 
