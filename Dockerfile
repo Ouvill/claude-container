@@ -1,7 +1,5 @@
 FROM node:24-trixie
 
-ARG CLAUDE_CODE_VERSION=latest
-
 # Install basic development tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
   less \
@@ -18,10 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   nano \
   vim \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Ensure default node user has access to /usr/local/share
-RUN mkdir -p /usr/local/share/npm-global && \
-  chown -R node:node /usr/local/share
 
 ARG USERNAME=node
 
@@ -47,15 +41,11 @@ RUN ARCH=$(dpkg --print-architecture) && \
 # Set up non-root user
 USER node
 
-# Install global packages
-ENV NPM_CONFIG_PREFIX=/usr/local/share/npm-global
-ENV PATH=$PATH:/usr/local/share/npm-global/bin
-
 # Set the default editor and visual
 ENV EDITOR=nano
 ENV VISUAL=nano
 
-# Install Claude
-RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
+# Install Claude Code (official installer)
+RUN curl -fsSL https://claude.ai/install.sh | bash
 ENV CLAUDE_CONFIG_DIR="/home/node/.claude"
 
