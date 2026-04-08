@@ -3,7 +3,6 @@ FROM node:24-trixie
 # Install basic development tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
   less \
-  git \
   procps \
   sudo \
   fzf \
@@ -15,6 +14,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   jq \
   nano \
   vim \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install git from source for worktree.userelativepaths support (requires >= 2.48)
+ARG GIT_VERSION=2.53.0
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  zlib1g-dev libcurl4-openssl-dev libexpat1-dev gettext \
+  make gcc autoconf \
+  && wget -q "https://github.com/git/git/archive/refs/tags/v${GIT_VERSION}.tar.gz" -O /tmp/git.tar.gz \
+  && tar -xzf /tmp/git.tar.gz -C /tmp \
+  && cd /tmp/git-${GIT_VERSION} \
+  && make prefix=/usr/local -j$(nproc) NO_TCLTK=YesPlease NO_PERL=YesPlease all \
+  && make prefix=/usr/local install \
+  && cd / && rm -rf /tmp/git* \
+  && apt-get purge -y make gcc autoconf zlib1g-dev libcurl4-openssl-dev libexpat1-dev \
+  && apt-get autoremove -y \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ARG USERNAME=node
